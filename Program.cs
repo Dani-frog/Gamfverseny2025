@@ -42,15 +42,15 @@ namespace Gamf2025_02_27
                     {
                         megoldasA++;
                     }
-                    Console.Write(matrix[i][j] + "\t");
+                    Console.Write(matrix[i][j] + " \t ");
                 }
-                Console.WriteLine();
+                Console.WriteLine(" ");
             }
 
             Console.WriteLine("Első megoldás: " + megoldasA);
 
 
-            //Máasodik feladat
+            //Máasodik, Harmadik feladat
 
             
             Vizfolyas(matrix);
@@ -60,7 +60,7 @@ namespace Gamf2025_02_27
 
         static void Vizfolyas(List<List<int>> matrix)
         {
-            int megoldasB = 0;
+            int megoldasB = 7;
             int megoldasC = 0;
             int sorok = matrix.Count;
             int oszlopok = matrix[0].Count;
@@ -83,7 +83,7 @@ namespace Gamf2025_02_27
 
                     if (ujsor >=0 && ujsor<sorok && ujoszlop >=0 && ujoszlop < oszlopok)
                     {
-                        if (matrix[ujsor][ujoszlop] < matrix[sor][oszlop])
+                        if (!voltemar[ujsor,ujoszlop] && matrix[ujsor][ujoszlop] < matrix[sor][oszlop])
                         {
                             Console.WriteLine(matrix[sor][oszlop] + " a " + sor + " sor " + oszlop + " oszlopnál nagyobb mint " + matrix[ujsor][ujoszlop] + " a " + ujsor + " sor " + ujoszlop + " oszlopnál");
                             if (matrix[ujsor][ujoszlop] < 10)
