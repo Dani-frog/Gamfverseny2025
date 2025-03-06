@@ -1,0 +1,221 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Gamf_2025_03_06
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Feladatok();
+        }
+
+        static void Feladatok()
+        {
+            string[,] titkosiras = {
+            { "A", "B", "C", "D", "E" },
+            { "F", "G", "H", "I", "J" },
+            { "K", "L", "M", "N", "O" },
+            { "P", "Q", "R", "S", "T" },
+            { "U", "V", "X", "Y", "Z" }
+        };
+
+            List<List<string>> matrixelsoszoveg = new List<List<string>>();
+            List<List<string>> matrixharmadikszavak = new List<List<string>>();
+
+            using (StreamReader sr = new StreamReader("szoveg.txt"))
+            {
+                while (!sr.EndOfStream)
+                {
+                    string[] line = sr.ReadLine().Split(' ');
+                    List<string> szosor = new List<string>();
+                    for (global::System.Int32 i = 0; i < line.Length ; i++)
+                    {
+
+                        szosor.Add(line[i]);
+                    }
+                    matrixelsoszoveg.Add(szosor);
+                }
+            }
+            List<string> harmadikszavak = new List<string>();
+            using (StreamReader sr = new StreamReader("szavak.txt"))
+            {
+                while (!sr.EndOfStream)
+                {
+                    harmadikszavak.Add(sr.ReadLine());
+                }
+            }
+            string masodikszoveg = "";
+            string harmadikszoveg = "";
+            using (StreamReader sr = new StreamReader("szoveg2.txt"))
+            {
+                while (!sr.EndOfStream)
+                {
+                    masodikszoveg = sr.ReadLine();
+                }
+            }
+            using (StreamReader sr = new StreamReader("szoveg3.txt"))
+            {
+                while (!sr.EndOfStream)
+                {
+                    harmadikszoveg = sr.ReadLine();
+                }
+            }
+
+            //1 feladat
+            string megoldasAszoveg = "";
+            int sor = 0;
+            int oszlop = 0;
+            char[] betuk = { 'A', 'E', 'I', 'O', 'U' };
+            int parosIndex = 0;
+            for (int i = 0; i < matrixelsoszoveg.Count; i++)
+            {
+                for (global::System.Int32 j = 0; j < matrixelsoszoveg[i].Count; j++)
+                {
+                    for (global::System.Int32 k = 0; k < matrixelsoszoveg[i][j].Length; k+=2)
+                    {
+                        sor = 0;
+                        oszlop = 0;
+
+                        for (global::System.Int32 i1 = 0; i1 < betuk.Length; i1++)
+                        {
+                            if (matrixelsoszoveg[i][j][k] == betuk[i1]) sor = i1;
+                            if (matrixelsoszoveg[i][j][k+1] == betuk[i1]) oszlop = i1;
+                            
+                        }
+                        if (parosIndex % 2 == 1)
+                        {
+                            megoldasAszoveg += titkosiras[oszlop, sor];
+                            //Console.WriteLine("A " + (oszlop+1) + " oszlop és " + (sor+1) + " sor ezt a betűt adja ki: " + titkosiras[sor, oszlop]);
+                        }
+                        else megoldasAszoveg += titkosiras[sor, oszlop];
+                        parosIndex++;
+                        
+                        //Console.WriteLine("A " + (oszlop+1) + " oszlop és " + (sor+1) + " sor ezt a betűt adja ki: " + titkosiras[sor, oszlop]);
+                    }
+                    megoldasAszoveg += " ";
+                }
+            }
+            Console.WriteLine(megoldasAszoveg);
+
+            string[] szoveglista = megoldasAszoveg.Split(' ');
+
+            int elsoQ = 0;int utolSoQ = 0;
+            for (int i = szoveglista.Length-1; i >= 0; i--)
+            {
+                for (global::System.Int32 j = 0; j < szoveglista[i].Length; j++)
+                {
+                    if (szoveglista[i][j]=='Q')
+                    {
+                        utolSoQ = i+1; break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < szoveglista.Length; i++)
+            {
+                for (global::System.Int32 j = 0; j < szoveglista[i].Length; j++)
+                {
+                    if (szoveglista[i][j] == 'Q')
+                    {
+                        elsoQ = i+1; break;
+                    }
+                }
+            }
+            int megoldasA = utolSoQ - elsoQ;
+            Console.WriteLine(elsoQ+" "+utolSoQ +" megoldasA "+megoldasA);
+
+            //2 feladat
+            string rejtettszo = "";
+            for (int i = 0; i < masodikszoveg.Length; i++)
+            {
+                for (global::System.Int32 j = 0; j < betuk.Length; j++)
+                {
+                    if (masodikszoveg[i] == betuk[j])
+                    {
+                        rejtettszo += masodikszoveg[i];
+                    }
+                }
+                
+            }
+            string megoldas2 = "";
+            int sor2 = 0;
+            int oszlop2 = 0;
+            for (int i = 0; i < rejtettszo.Length-1; i+=2)
+            {
+                sor2 = 0;
+                oszlop2 = 0;
+                for (global::System.Int32 i1 = 0; i1 < betuk.Length; i1++)
+                {
+                    if (rejtettszo[i] == betuk[i1]) sor2 = i1;
+                    if (rejtettszo[i+1] == betuk[i1]) oszlop2 = i1;
+                    
+                }
+                Console.WriteLine("A " + (oszlop2 + 1) + " oszlop és " + (sor2 + 1) + " sor ezt a betűt adja ki: " + titkosiras[oszlop2, sor2]);
+                megoldas2 += titkosiras[sor2,oszlop2];
+            }
+            Console.WriteLine(megoldas2);
+
+            //3 feladat
+
+            string harmadikszovegtitkositott = "";
+            for (int i = 0; i < harmadikszoveg.Length; i++)
+            {
+                for (global::System.Int32 j = 0; j < titkosiras.GetLength(0); j++)
+                {
+                    for (global::System.Int32 k = 0; k < titkosiras.GetLength(1); k++)
+                    {
+                        if (Convert.ToString(harmadikszoveg[i]) == titkosiras[j,k])
+                        {
+                            harmadikszovegtitkositott += betuk[j] + "" + betuk[k]+" ";
+                            
+                        }
+                    }
+                    
+                }
+            }
+            string[] hszt = harmadikszovegtitkositott.Split(' ');
+
+            string megoldasHarmadik = "";
+
+            List<string> harmadikszavakmghangzo = new List<string>();
+            for (int i = 0; i < harmadikszavak.Count; i++)
+            {
+                string keszultszo = "";
+                for (global::System.Int32 j = 0; j < harmadikszavak[i].Length; j++)
+                {
+                    string maganhangzok = "";
+                    for (global::System.Int32 k = 0; k < betuk.Length; k++)
+                    {
+                        if (harmadikszavak[i][j] == betuk[k])
+                        {
+                            maganhangzok += harmadikszavak[i][j];
+                        }
+                    }
+                    keszultszo += maganhangzok;
+                }
+                harmadikszavakmghangzo.Add(keszultszo);
+
+            }
+            for (int i = 0; i < hszt.Length; i++)
+            {
+                for (global::System.Int32 j = 0; j < harmadikszavakmghangzo.Count; j++)
+                {
+                    if (hszt[i] == harmadikszavakmghangzo[j])
+                    {
+                        megoldasHarmadik += harmadikszavak[j] + " ";
+                    }
+                }
+            }
+
+            Console.WriteLine(megoldasHarmadik);
+
+            Console.ReadKey();
+
+        }
+    }
+}
